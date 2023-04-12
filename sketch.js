@@ -1,10 +1,10 @@
 let run1Img;
 let run2Img;
 let notRunImg;
-let img;
+let backgroundimg;
 
 canX = 1000;
-canY = 800;
+canY = 600;
 
 //player movement
 pMoveX = 100;
@@ -17,6 +17,7 @@ function preload()
   run1Img = loadImage("assets/run.png");
   run2Img = loadImage("assets/run2.png");
   notRunImg = loadImage("assets/not_run.png");
+  backgroundimg = loadImage("assets/city.jpg")
 }
 
 function setup() 
@@ -28,21 +29,22 @@ function setup()
 function draw() 
 {
   background(220);
+  Background(backgroundimg);
   circle(pMoveX, pMoveY, pHitboxRad); //draw the player
   
   pMoveY = pMoveY + hastighed; //make the player move up down
 
   //map borders
-  
   if(pMoveY < pHitboxRad/2)
-     {
-       pMoveY = pHitboxRad/2;
-       print("border");
-     }
-      else if(pMoveY > (canY-pHitboxRad/2))
-        {
-           pMoveY = canY-pHitboxRad/2;
-        }
+  {
+    pMoveY = pHitboxRad/2;
+    print("border");
+  }
+  else if(pMoveY > (canY-pHitboxRad/2))
+  {
+    pMoveY = canY-pHitboxRad/2;
+  }
+
   Animation(run1Img, run2Img, notRunImg, pMoveX, pMoveY);
 }
 
@@ -54,10 +56,44 @@ function Animation(img1,img2,img3,x,y)
   this.x = x;
   this.y = y;
   // function needs to be called to continue animating
-  this.timer += deltaTime;
+  if(isNaN(this.timer))
+  {
+    this.timer = 0;
+  }
+  this.timer = deltaTime + this.timer;
 
+  // timer
+  if(this.timer < 500)
+  {
+    image(this.img1, this.x, this.y);
+  }
+  else if(this.timer < 1000)
+  {
+    image(this.img2, this.x, this.y);
+  }
+  else if(this.timer < 1500)
+  {
+    this.timer = 0;
+  }
+}
+
+function Background(img)
+{
+  this.backimg = img;
   
-  image(this.img1, this.x, this.y);
+  if(isNaN(this.was))
+  {
+    this.was = 0;
+  }
+  this.was = this.was - 7;
+
+  imageMode(CORNER);
+  image(this.backimg,this.was ,0);
+  if(this.was + this.backimg.width <= 0 )
+  {
+    this.was = 0;
+  }
+  imageMode(CENTER);
 }
 
 function keyPressed()
