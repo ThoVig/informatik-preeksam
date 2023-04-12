@@ -2,6 +2,7 @@ let run1Img;
 let run2Img;
 let notRunImg;
 let backgroundimg;
+let cinema;
 
 canX = 1000;
 canY = 600;
@@ -17,7 +18,8 @@ function preload()
   run1Img = loadImage("assets/run.png");
   run2Img = loadImage("assets/run2.png");
   notRunImg = loadImage("assets/not_run.png");
-  backgroundimg = loadImage("assets/city.jpg")
+  backgroundimg = loadImage("assets/city2.webp");
+  cinemaImg = loadImage("assets/cinema.png")
 }
 
 function setup() 
@@ -29,7 +31,7 @@ function setup()
 function draw() 
 {
   background(220);
-  Background(backgroundimg);
+  Background(backgroundimg, cinemaImg);
   circle(pMoveX, pMoveY, pHitboxRad); //draw the player
   
   pMoveY = pMoveY + hastighed; //make the player move up down
@@ -77,21 +79,32 @@ function Animation(img1,img2,img3,x,y)
   }
 }
 
-function Background(img)
+function Background(img, img2)
 {
   this.backimg = img;
+  this.backimg2 = img2;
   
   if(isNaN(this.was))
   {
-    this.was = 0;
+    this.was = this.backimg2.width;
   }
   this.was = this.was - 7;
+  if(isNaN(this.was2))
+  {
+    this.was2 = 0;
+  }
+  this.was2 = this.was2 - 7;
 
   imageMode(CORNER);
-  image(this.backimg,this.was ,0);
-  if(this.was + this.backimg.width <= 0 )
+  image(this.backimg, this.was, -200);
+  image(this.backimg2, this.was2, -120);
+  if(this.was < -this.backimg.width)
   {
-    this.was = 0;
+    this.was = this.backimg2.width;
+  }
+  if(this.was2 < -this.backimg2.width)
+  {
+    this.was2 = this.backimg.width;
   }
   imageMode(CENTER);
 }
