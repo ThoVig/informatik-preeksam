@@ -190,7 +190,7 @@ function gameOver()
   {
     text(`Game over \ndu blev ramt ${coilled} gange!`, canX/2, canY/2);
   }
-  if(coilled == 0)
+  else if(coilled == 0)
   {
     text("Tilykke du har vundet {PRIZE}", canX/2, canY/2-50);
   }
@@ -198,5 +198,6 @@ function gameOver()
   {
     text(`Du blev ramt ${coilled} gange!`, canX/2, canY/2);
   }
+  window.open("https://pepsi.com");
   exit();
 }
